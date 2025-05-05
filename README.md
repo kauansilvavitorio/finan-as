@@ -139,6 +139,8 @@
     const graficoLinhaCtx = document.getElementById("graficoLinha").getContext("2d");
     let graficoLinha;
 
+    let todasTransacoes = [];
+
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const tipo = document.getElementById("tipo").value;
@@ -171,6 +173,7 @@
         const valor = parseFloat(t.valor);
         if (!isNaN(valor)) {
           saldo += t.tipo === "entrada" ? valor : -valor;
+
           datas.push(t.data);
           saldosAoLongoDoTempo.push(saldo);
 
@@ -229,7 +232,6 @@
     document.getElementById("filtroNome").addEventListener("input", () => atualizarSaldo(todasTransacoes));
     document.getElementById("filtroData").addEventListener("input", () => atualizarSaldo(todasTransacoes));
 
-    let todasTransacoes = [];
     database.ref("transacoes").on("value", snapshot => {
       const data = snapshot.val();
       todasTransacoes = data ? Object.values(data) : [];
